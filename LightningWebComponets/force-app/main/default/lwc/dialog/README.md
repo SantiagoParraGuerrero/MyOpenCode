@@ -24,7 +24,7 @@
 
 > closes the dialog
 
-* @api(getter) *opened*
+* @api(getter) **opened**
 
 > true if the dialog is open otherwise false
 
