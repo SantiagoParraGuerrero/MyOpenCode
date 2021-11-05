@@ -24,7 +24,7 @@
 
 > closes the modal
 
-* @api(getter) *opened*
+* @api(getter) **opened**
 
 > true if the modal is open otherwise false
 
