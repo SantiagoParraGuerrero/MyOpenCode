@@ -1,0 +1,7 @@
+:host {
+	display: block;
+	left : var(--popoverLeft);
+	position: fixed;
+	top : var(--popoverTop);
+	z-index: 9006;
+}

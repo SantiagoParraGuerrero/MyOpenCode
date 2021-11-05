@@ -1,0 +1,17 @@
+<template>
+  <c-dialog
+    css-class={cssClass}
+    described-by={describedBy}
+    label={label}
+    labelled-by={labelledBy}
+    onclosed={_onDialogClose}
+    onopened={_onDialogOpen}
+  >
+    <slot></slot>
+  </c-dialog>
+  <template if:false={noBackdrop}>
+    <template if:true={_isOpen}>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+  </template>
+</template>

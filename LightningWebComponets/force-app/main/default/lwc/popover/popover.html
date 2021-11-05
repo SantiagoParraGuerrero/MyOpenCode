@@ -1,0 +1,13 @@
+<template>
+	<c-dialog
+	  onopened={_onDialogOpen}
+	  onclosed={_onDialogClose}
+	  css-class={cssClass}
+	  described-by={describedBy}
+	  labelled-by={labelledBy}
+	  label={label}
+	>
+	  <slot></slot>
+	</c-dialog>
+  </template>
+  
