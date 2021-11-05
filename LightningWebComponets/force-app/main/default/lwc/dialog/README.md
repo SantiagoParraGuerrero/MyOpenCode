@@ -1,4 +1,4 @@
-# c-dialog(requires c-dialog)
+# c-dialog
 
 * @api **describedBy**
 
