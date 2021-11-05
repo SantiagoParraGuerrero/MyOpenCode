@@ -31,3 +31,5 @@
 * events
   * **opened:** triggered when the dialog is opened
   * **closed** triggered when the dialog is closed
+
+I want to thank https://github.com/jamessimone/lwc-modal as his code helped me to build c-dialog (pretty much just copied it but make it extendable to be able to implement it in modals and popovers)
