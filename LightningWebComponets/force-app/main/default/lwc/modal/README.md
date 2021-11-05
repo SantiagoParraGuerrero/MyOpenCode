@@ -1,4 +1,4 @@
-c-modal
+c-modal(requires c-dialog)
    @api describedBy = use same value that you would use in aria-describedby
    @api labelledBy = use same value that you would use in aria-labelledby
    @api label = use same value that you would use in aria-label
