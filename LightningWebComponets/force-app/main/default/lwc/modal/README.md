@@ -12,7 +12,7 @@
 
 * add the `data-id="close"` to your close button element (_this is just the x button that modals have to the right corner_)
 
-* remove this line that should be at the end <div class="slds-backdrop slds-backdrop_open"></div>
+* remove this line that should be at the end `<div class="slds-backdrop slds-backdrop_open"></div>`
   * _backdrop is disabled or enable when closed/opened the modal_ (see @api noBackdrop in case you dont want to have a backdrop)
 
 * that's it now you have all functionality described in
