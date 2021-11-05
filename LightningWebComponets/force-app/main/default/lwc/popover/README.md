@@ -41,7 +41,7 @@
 
 > closes the popover
 
-* @api(getter) *opened*
+* @api(getter) **opened**
 
 > true if the popover is open otherwise false
 
