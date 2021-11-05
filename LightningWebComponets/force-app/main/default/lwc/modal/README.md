@@ -8,7 +8,7 @@
 
 * put all your content inside a `<div>` with the `data-id="body"`
 
-**it has to be inside the `<div class="slds-modal__container">` this is because slds-modal__container behaves in an unexpected way and messes up the close on click outside functionality**
+**it has to be inside the `<div class="slds-modal__container">` this is because slds-modal__container behaves in an unexpected way and messes up the close-on-click-outside functionality**
 
 * add the `data-id="close"` to your close button element (_this is just the x button that modals have to the right corner_)
 
