@@ -15,7 +15,8 @@
 * that's it now you have all functionality described in
   * https://www.lightningdesignsystem.com/components/modals/#Expected-keyboard-interactions
  
-![image](https://user-images.githubusercontent.com/68650314/140563267-7acf4f4b-fc5a-4ba6-b136-43d4f651046c.png)
+![image](https://user-images.githubusercontent.com/68650314/140575582-c8b2da62-6e1a-4058-9622-ad83915669b1.png)
+
 
 ![image](https://user-images.githubusercontent.com/68650314/140564038-13d7e469-a871-4146-8fca-fb6cfd374d3d.png)
 
