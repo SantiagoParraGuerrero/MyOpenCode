@@ -17,7 +17,8 @@
 > class to be applied to the section element
 
 * @api **open()**
-  * > opens the modal relative to the directions given
+
+> opens the modal relative to the directions given
 
 * @api **close()**
 
