@@ -1,24 +1,32 @@
-c-dialog
+# c-dialog(requires c-dialog)
 
-@api(optional) describedBy = use same value that you would use in aria-describedby
-@api(optional) labelledBy = use same value that you would use in aria-labelledby
-@api(optional) label = use same value that you would use in aria-label
-css-class(optional) = class to be applied to the section element
+* @api **describedBy**
 
-@api opened
-return true if the dialog is open otherwise false
+> use same value that you would use in aria-describedby
 
-@api open()
-   opens the dialog
+* @api **labelledBy**
 
-@api close()
-   closes the dialog
+> use same value that you would use in aria-labelledby
 
-@api(getter) opened
-   returns true if the dialog is open otherwise false
+* @api **label**
 
-events
-opened
-   use thing event if you want to do something when the dialog is opened
-closed
-   use thing event if you want to do something when the dialog is closed
+> use same value that you would use in aria-label
+
+* @api **cssClass**
+
+> class to be applied to the section element
+
+* @api **open()**
+  * > opens the dialog relative to the directions given
+
+* @api **close()**
+
+> closes the dialog
+
+* @api(getter) *opened*
+
+> true if the dialog is open otherwise false
+
+* events
+  * **opened:** triggered when the dialog is opened
+  * **closed** triggered when the dialog is closed
