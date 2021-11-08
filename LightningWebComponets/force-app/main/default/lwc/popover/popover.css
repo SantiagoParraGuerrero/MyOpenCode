@@ -1,7 +1,8 @@
-:host {
-	display: block;
-	left : var(--popoverLeft);
-	position: fixed;
-	top : var(--popoverTop);
+
+c-dialog {
 	z-index: 9006;
+	display: block;
+	position: fixed;
+	left : var(--popoverLeft);
+	top : var(--popoverTop);
 }

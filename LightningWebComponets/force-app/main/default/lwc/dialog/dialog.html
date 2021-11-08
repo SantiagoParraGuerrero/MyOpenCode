@@ -8,25 +8,26 @@
         tabindex="-1"
     >
         <a href="javascript:void(0)" class="firstlink"></a>
-        <template if:false={_closeButtonInSlot}>
-            <button
-                data-id="close"
-                class="
-                    slds-button slds-button_icon slds-button_icon-small
-                    slds-float_right
-                    slds-popover__close
-                "
-                title="Close"
-            >
-                <svg class="slds-button__icon" aria-hidden="true">
-                    <use
-                        xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close"
-                    ></use>
-                </svg>
-                <span class="slds-assistive-text">Close dialog</span>
-            </button>
+        <template if:false={_isTooltip}>
+            <template if:false={_closeButtonInSlot}>
+                <lightning-button-icon
+                    data-id="close"
+                    icon-name="utility:close"
+                    size="large"
+                    variant="bare-inverse"
+                    alternative-text="Close"
+                    class="slds-modal__close"
+                ></lightning-button-icon>
+            </template>
         </template>
-        <slot></slot>
+        <template if:true={_isModal}>
+            <div class="slds-modal__container">
+                <slot name="body"></slot>
+            </div>
+        </template>
+        <template if:false={_isModal}>
+            <slot name="body"></slot>
+        </template>
         <a href="javascript:void(0)" class="lastLink"></a>
     </section>
 </template>

@@ -5,9 +5,10 @@
     label={label}
     labelled-by={labelledBy}
     onclosed={_onDialogClose}
+    type="modal"
     onopened={_onDialogOpen}
   >
-    <slot></slot>
+    <slot slot="body"></slot>
   </c-dialog>
   <template if:false={noBackdrop}>
     <template if:true={_isOpen}>

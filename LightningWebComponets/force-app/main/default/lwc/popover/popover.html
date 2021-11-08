@@ -1,5 +1,8 @@
 <template>
+	<slot style="display: table;" name="tooltip"></slot>
 	<c-dialog
+	  role={role}
+	  type={type}
 	  onopened={_onDialogOpen}
 	  onclosed={_onDialogClose}
 	  css-class={cssClass}
@@ -7,7 +10,7 @@
 	  labelled-by={labelledBy}
 	  label={label}
 	>
-	  <slot></slot>
+		<slot name="body" slot="body"></slot>
 	</c-dialog>
   </template>
   

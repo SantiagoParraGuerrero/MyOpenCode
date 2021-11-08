@@ -1,146 +1,137 @@
 import { LightningElement, api } from "lwc";
+import { PopoverHelper } from "c/popoverHelper";
+
 export default class Popover extends LightningElement {
-  @api cssClass;
-  @api describedBy;
-  @api label;
-  @api labelledBy;
-  @api placement = "dynamic";
+    @api describedBy;
+    @api label;
+    @api labelledBy;
+    @api placement = "dynamic";
+    @api role;
+    @api type = "popover";
+    _cssClass = "";
+    _isFirstRender = true;
+    _isOpen = false;
 
-  _nubbinsByPosition = {
-    bottom: "slds-nubbin_top",
-    bottomLeft: "slds-nubbin_top-right",
-    bottomRight: "slds-nubbin_top-left",
-    center: "",
-    left: "slds-nubbin_right",
-    right: "slds-nubbin_left",
-    top: "slds-nubbin_bottom",
-    topLeft: "slds-nubbin_bottom-right",
-    topRight: "slds-nubbin_bottom-left"
-  };
+    @api
+    get cssClass() {
+        const baseClasses = new Set(this._cssClass.split(" "));
+        baseClasses.add("slds-popover");
+        return [...baseClasses].join(" ");
+    }
 
-  @api
-  get opened() {
-    return this._dialog.opened;
-  }
+    @api
+    get opened() {
+        return this._dialog.opened;
+    }
 
-  get _css() {
-    return document.body.style;
-  }
+    get _body() {
+        return this.template.querySelector('slot[name="body"]');
+    }
 
-  get _dialog() {
-    return this.template.querySelector("c-dialog");
-  }
+    get _dialog() {
+        return this.template.querySelector("c-dialog");
+    }
 
-  @api
-  open(directions) {
-    this._dialog.open();
-    this.placement !== "manual" &&
-      setTimeout(() => this._setPopoverLocation(directions), 0);
-  }
+    get _isTooltip() {
+        return this.type === "tooltip";
+    }
 
-  @api
-  close() {
-    this._dialog.close();
-  }
+    get _tooltip() {
+        return this.template.querySelector('slot[name="tooltip"]');
+    }
 
-  _getClosestCornerToCenterOfScreen(directions) {
-    const centerOfScreen = {
-      left: window.innerWidth / 2,
-      top: window.innerHeight / 2
+    set cssClass(value) {
+        this._cssClass = value;
+    }
+
+    @api
+    open(directions) {
+        this._dialog.open();
+        this.placement !== "manual" &&
+            setTimeout(() => this._setPopOverLocation(directions), 0);
+    }
+
+    @api
+    close() {
+        this._dialog.close();
+    }
+
+    _hoverInside = e => {
+        e.stopPropagation();
+        this._dialog.open();
+        this.placement !== "manual" &&
+            setTimeout(() => {
+                const directions =
+                    this.querySelector(
+                        '[slot="tooltip"]'
+                    ).getBoundingClientRect();
+                this._setPopOverLocation(directions);
+            }, 0);
     };
-    const corners = {
-      topLeft: { left: directions.left, top: directions.top },
-      bottomLeft: { left: directions.left, top: directions.bottom },
-      topRight: { left: directions.right, top: directions.top },
-      bottomRight: { left: directions.right, top: directions.bottom }
+
+    _hoverOutside = e => {
+        e.stopPropagation();
+        this._isOpen && this.close();
     };
 
-    Object.entries(corners).forEach(([key, value]) => {
-      const a = value.left - centerOfScreen.left;
-      const b = value.top - centerOfScreen.top;
-      const distance = Math.sqrt(a * a + b * b);
-      corners[key].distanceFromCenterOfScreen = distance;
-    });
-
-    const closerDistance = Math.min(
-      ...Object.values(corners).map(e => e.distanceFromCenterOfScreen)
-    );
-    return Object.entries(corners).find(
-      ([key, value]) => value.distanceFromCenterOfScreen === closerDistance
-    )[0];
-  }
-
-  _setPopoverLeft(directions, popUp, dynamic) {
-    const centerOfButton = directions.left + directions.width / 2;
-    const centerOfPopUp = popUp.width / 2;
-    if (["bottom", "top", "center"].includes(this.placement)) {
-      return centerOfButton - centerOfPopUp;
-    }
-    if (this.placement === "left") {
-      return directions.left - popUp.width;
-    }
-    if (this.placement === "right") {
-      return directions.right;
+    _onDialogClose(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this._isOpen = false;
+        const theEvent = new CustomEvent("closed");
+        this.dispatchEvent(theEvent);
     }
 
-    return dynamic.includes("Left")
-      ? centerOfButton - popUp.width
-      : centerOfButton;
-  }
-
-  _setPopoverLocation(directions) {
-    const popUp =
-      this.querySelector('[data-id="body"]').getBoundingClientRect();
-    const baseClasses = new Set(this.cssClass.split(" "));
-    [...baseClasses]
-      .filter(e => e.startsWith("slds-nubbin"))
-      .forEach(e => baseClasses.delete(e));
-    const dynamic = this._getClosestCornerToCenterOfScreen(directions);
-    const nubbins =
-      this.placement === "dynamic"
-        ? this._nubbinsByPosition[dynamic]
-        : this._nubbinsByPosition[this.placement];
-    baseClasses.add(nubbins);
-    this.cssClass = [...baseClasses].join(" ");
-    this._css.setProperty(
-      "--popoverLeft",
-      `${this._setPopoverLeft(directions, popUp, dynamic)}px`
-    );
-    this._css.setProperty(
-      "--popoverTop",
-      `${this._setPopoverTop(directions, popUp, dynamic)}px`
-    );
-    //TODO USE CSS Modules when added to lwc
-  }
-
-  _setPopoverTop(directions, popUp, dynamic) {
-    const centerOfButton = directions.top + directions.height / 2;
-    const centerOfPopUp = popUp.height / 2;
-    if (["left", "right", "center"].includes(this.placement)) {
-      return centerOfButton - centerOfPopUp;
+    _onDialogOpen(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this._isOpen = true;
+        const theEvent = new CustomEvent("opened");
+        this.dispatchEvent(theEvent);
     }
-    if (this.placement === "top") {
-      return directions.top - popUp.height;
-    }
-    if (this.placement === "bottom") {
-      return directions.bottom;
-    }
-    return dynamic.includes("top")
-      ? directions.top - popUp.height
-      : directions.bottom;
-  }
 
-  _onDialogClose(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const theEvent = new CustomEvent("closed");
-    this.dispatchEvent(theEvent);
-  }
+    _setDirections(newDirections) {
+        const css = document.body.style;
+        css.setProperty("--popoverLeft", `${newDirections.left}px`);
+        css.setProperty("--popoverTop", `${newDirections.top}px`);
+        //TODO USE CSS Modules when added to lwc
+    }
 
-  _onDialogOpen(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const theEvent = new CustomEvent("opened");
-    this.dispatchEvent(theEvent);
-  }
+    _setNubbins(nubbins) {
+        const baseClasses = new Set(this.cssClass.split(" "));
+        [...baseClasses]
+            .filter(e => e.startsWith("slds-nubbin"))
+            .forEach(e => baseClasses.delete(e));
+        baseClasses.add(nubbins);
+        this.cssClass = [...baseClasses].join(" ");
+    }
+
+    _setPopOverLocation(directions) {
+        const popUpDirections =
+            this.querySelector('[slot="body"]').getBoundingClientRect();
+        const helper = new PopoverHelper(
+            this.placement,
+            directions,
+            popUpDirections
+        );
+        this._setNubbins(helper.getNubbins());
+        this._setDirections(helper.getPopoverLocation());
+    }
+
+    disconnectedCallback() {
+        if (this._isTooltip) {
+            this.template.removeEventListener("mouseover", this._hoverInside);
+            document.removeEventListener("mouseover", this._hoverOutside);
+        }
+    }
+
+    renderedCallback() {
+        if (this._isFirstRender) {
+            this._isFirstRender = false;
+            if (this._isTooltip) {
+                document.addEventListener("mouseover", this._hoverOutside);
+                this.template.addEventListener("mouseover", this._hoverInside);
+            }
+        }
+    }
 }

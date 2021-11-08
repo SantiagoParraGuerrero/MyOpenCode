@@ -1,12 +1,19 @@
 import { LightningElement, api } from "lwc";
 
 export default class Modal extends LightningElement {
-  @api cssClass;
   @api describedBy;
   @api label;
   @api labelledBy;
   @api noBackdrop;
+  _cssClass;
   _isOpen = false;
+
+  @api
+  get cssClass() {
+      const baseClasses = new Set(this._cssClass.split(" "));
+      baseClasses.add("slds-modal");
+      return [...baseClasses].join(" ");
+  }
 
   @api
   get opened() {
@@ -15,6 +22,10 @@ export default class Modal extends LightningElement {
 
   get _dialog() {
     return this.template.querySelector("c-dialog");
+  }
+
+  set cssClass(value) {
+      this._cssClass = value;
   }
 
   @api
