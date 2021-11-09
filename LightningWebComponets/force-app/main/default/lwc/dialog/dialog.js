@@ -12,8 +12,18 @@ export default class Dialog extends LightningElement {
     @api labelledBy;
     @api role = "dialog";
     @api type;
+    @api
+    get trigger() {
+        return this._trigger;
+    }
+    set trigger(value) {
+        this.setAttribute('trigger', value);
+        this._trigger = value;
+        this.trigger?.addEventListener("click", this._innerClickHandler);
+    }
 
     _cssClass = "";
+    _trigger;
     _isFirstRender = true;
     _isOpen = false;
 
@@ -163,13 +173,12 @@ export default class Dialog extends LightningElement {
     }
 
     disconnectedCallback() {
+        this._closeButton?.removeEventListener("click", this._close);
         if (!this._isTooltip) {
             document.removeEventListener("click", this._outsideClickListener);
-            this._body?.removeEventListener(
-                "click",
-                this._outsideClickListener
-            );
+            this._body?.removeEventListener("click", this._innerClickHandler);
         }
+        this.trigger?.removeEventListener("click", this._innerClickHandler);
     }
 
     renderedCallback() {

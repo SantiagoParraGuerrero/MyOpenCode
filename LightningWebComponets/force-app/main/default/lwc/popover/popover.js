@@ -8,6 +8,7 @@ export default class Popover extends LightningElement {
     @api placement = "dynamic";
     @api role;
     @api type = "popover";
+    @api trigger;
     _cssClass = "";
     _isFirstRender = true;
     _isOpen = false;

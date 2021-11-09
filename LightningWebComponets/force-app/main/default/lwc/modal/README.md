@@ -6,9 +6,7 @@
 
 * replace the `<section>` tag to use the `<c-modal>` component
 
-* put all your content inside a `<div>` with the `data-id="body"`
-
-**it has to be inside the `<div class="slds-modal__container">` this is because slds-modal__container behaves in an unexpected way and messes up the close-on-click-outside functionality**
+* copy all the content withing the `<div class="slds-modal__container">`
 
 * add the `data-id="close"` to your close button element (_this is just the x button that modals have to the right corner_)
 
@@ -18,10 +16,6 @@
 * that's it now you have all functionality described in
   * https://www.lightningdesignsystem.com/components/modals/#Expected-keyboard-interactions
  
-![image](https://user-images.githubusercontent.com/68650314/140575582-c8b2da62-6e1a-4058-9622-ad83915669b1.png)
-
-
-![image](https://user-images.githubusercontent.com/68650314/140564038-13d7e469-a871-4146-8fca-fb6cfd374d3d.png)
 
 * @api **describedBy**
 
