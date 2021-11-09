@@ -74,7 +74,7 @@ export default class Dialog extends LightningElement {
         this._isOpen = true;
         const theEvent = new CustomEvent("opened");
         this.dispatchEvent(theEvent);
-        this._focusFirstChild();
+        !this._isTooltip && this._focusFirstChild();
     }
 
     @api
@@ -175,7 +175,7 @@ export default class Dialog extends LightningElement {
     renderedCallback() {
         if (this._isFirstRender) {
             this._isFirstRender = false;
-            this._closeButton.addEventListener("click", this._close);
+            this._closeButton?.addEventListener("click", this._close);
             if (!this._isTooltip) {
                 document.addEventListener("click", this._outsideClickListener);
                 this._body?.addEventListener("click", this._innerClickHandler);

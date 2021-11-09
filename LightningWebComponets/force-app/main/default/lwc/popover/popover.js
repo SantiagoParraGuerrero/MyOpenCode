@@ -41,6 +41,7 @@ export default class Popover extends LightningElement {
     }
 
     set cssClass(value) {
+        this.setAttribute('cssClass', value);
         this._cssClass = value;
     }
 
